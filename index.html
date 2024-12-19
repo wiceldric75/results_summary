@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Results Summary Component</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Hanken Grotesk", sans-serif;
+        background-color: #f3f4fd;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        background: #ffffff;
+        max-width: 375px;
+        height: 809px;
+        overflow: hidden;
+      }
+
+      .result-section {
+        color: white;
+        text-align: center;
+        padding: 24px;
+        width: 375px;
+        height: 356px;
+        border-radius: 0px 0px 32px 32px;
+        background: var(
+          --Gradient-1,
+          linear-gradient(180deg, #75f 0%, #6943ff 0.01%, #2f2ce9 100%)
+        );
+
+        /* 1 */
+        box-shadow: 0px 30px 60px 0px rgba(61, 108, 236, 0.15);
+      }
+
+      .result-section h2 {
+        color: var(--Light-Blue, #cac9ff);
+        text-align: center;
+        font-feature-settings: "liga" off, "clig" off;
+        font-family: "Hanken Grotesk";
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+      }
+
+      .svg-wrapper {
+        position: relative; /* Allows text to be positioned relative to this container */
+        display: inline-block;
+        width: 140px;
+        height: 140px;
+        margin-top: 24px;
+      }
+
+      .svg-wrapper svg {
+        display: block; /* Ensures the SVG does not create extra white space */
+        width: 100%;
+        height: 100%;
+      }
+
+      .svg-text {
+        position: absolute; /* Positions the text relative to the .svg-wrapper */
+        top: 0; /* Start positioning from the top of the container */
+        left: 0; /* Start positioning from the left of the container */
+        width: 100%; /* Ensures text container spans the full width of the circle */
+        height: 100%; /* Ensures text container spans the full height of the circle */
+        display: flex; /* Use flexbox for easy positioning */
+        flex-direction: column; /* Stack text elements vertically */
+        align-items: center; /* Horizontally center text */
+      }
+
+      .svg-text-primary {
+        position: relative;
+        top: 25px; /* Moves text 25px down from the top */
+        color: var(--White, #fff);
+        text-align: center;
+        font-feature-settings: "liga" off, "clig" off;
+        font-family: "Hanken Grotesk";
+        font-size: 56px;
+        font-style: normal;
+        font-weight: 800;
+        line-height: 72px; /* 128.571% */
+      }
+
+      .svg-text-secondary {
+        position: absolute; /* Allows independent positioning from .svg-text-primary */
+        bottom: 25px; /* Adjust the vertical position of this secondary text if needed */
+        color: var(--Light-Blue, #cac9ff);
+        font-feature-settings: "liga" off, "clig" off;
+        font-family: "Hanken Grotesk";
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        opacity: 0.8; /* Slightly dim the secondary text */
+        left: 38px; /* Space the text 38px from the left */
+        right: 38px; /* Space the text 38px from the right */
+        text-align: center; /* Center text if it spans multiple lines */
+        opacity: 0.5168;
+      }
+
+      .result-section h1 {
+        color: var(--White, #fff);
+        text-align: center;
+        font-feature-settings: "liga" off, "clig" off;
+        font-family: "Hanken Grotesk";
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        margin-top: 24px;
+        margin-bottom: 8px;
+      }
+
+      .result-section p {
+        color: var(--Light-Blue, #cac9ff);
+        text-align: center;
+        font-feature-settings: "liga" off, "clig" off;
+        font-family: "Hanken Grotesk";
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        width: 260px;
+        margin: 0 auto;
+      }
+
+      .summary-section {
+        padding: 24px;
+      }
+
+      .summary-section h2 {
+        margin-bottom: 24px;
+        color: var(--Dark-Navy, #303b59);
+        font-feature-settings: "liga" off, "clig" off;
+        font-family: "Hanken Grotesk";
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+      }
+
+      .summary-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px;
+        background: #f9f9f9;
+        border-radius: 12px;
+        margin-bottom: 16px;
+        height: 56px;
+      }
+
+      .summary-item img {
+        width: 24px;
+        height: 24px;
+        margin-right: 16px;
+      }
+
+      .summary-item-1 {
+        border-radius: 12px;
+        background: var(
+          --red-95-white,
+          linear-gradient(
+            0deg,
+            rgba(255, 255, 255, 0.95) 0%,
+            rgba(255, 255, 255, 0.95) 100%
+          ),
+          #f55
+        );
+      }
+      .summary-item-1 .category {
+        color: var(--Red, #f55);
+        font-feature-settings: "liga" off, "clig" off;
+        font-family: "Hanken Grotesk";
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+      }
+
+      .summary-item-2 {
+        background: var(
+          --yellow-95-white,
+          linear-gradient(
+            0deg,
+            rgba(255, 255, 255, 0.95) 0%,
+            rgba(255, 255, 255, 0.95) 100%
+          ),
+          #ffb21e
+        );
+      }
+      .summary-item-2 .category {
+        color: var(--Yellow, #ffb21e);
+        font-feature-settings: "liga" off, "clig" off;
+        font-family: "Hanken Grotesk";
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+      }
+
+      .summary-item-3 {
+        border-radius: 12px;
+        background: var(
+          --green-95-white,
+          linear-gradient(
+            0deg,
+            rgba(255, 255, 255, 0.95) 0%,
+            rgba(255, 255, 255, 0.95) 100%
+          ),
+          #00bb8f
+        );
+      }
+      .summary-item-3 .category {
+        color: var(--Green, #00bb8f);
+        font-feature-settings: "liga" off, "clig" off;
+        font-family: "Hanken Grotesk";
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+      }
+
+      .summary-item-4 {
+        border-radius: 12px;
+        background: var(
+          --blue-95-white,
+          linear-gradient(
+            0deg,
+            rgba(255, 255, 255, 0.95) 0%,
+            rgba(255, 255, 255, 0.95) 100%
+          ),
+          #1125d6
+        );
+      }
+      .summary-item-4 .category {
+        color: var(--Blue, #1125d6);
+        font-feature-settings: "liga" off, "clig" off;
+        font-family: "Hanken Grotesk";
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+      }
+
+      .one-hundred {
+        color: var(--Dark-Navy, #303b59);
+        text-align: right;
+        font-feature-settings: "liga" off, "clig" off;
+        font-family: "Hanken Grotesk";
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        opacity: 0.5;
+      }
+
+      .my-score {
+        color: var(--Dark-Navy, #303b59);
+        text-align: right;
+        font-feature-settings: "liga" off, "clig" off;
+        font-family: "Hanken Grotesk";
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        opacity: 1;
+      }
+
+      .continue-btn {
+        margin-top: 8px;
+        background: var(--Dark-Navy, #303b59);
+        color: white;
+        padding: 15px;
+        border: none;
+        border-radius: 128px;
+        width: 100%;
+        text-align: center;
+        font-size: 16px;
+        cursor: pointer;
+        color: var(--White, #fff);
+        font-feature-settings: "liga" off, "clig" off;
+        /* Body (Bold) */
+        font-family: "Hanken Grotesk";
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+      }
+
+      .continue-btn:hover {
+        background: var(
+          --Gradient-1,
+          linear-gradient(180deg, #75f 0%, #6943ff 0.01%, #2f2ce9 100%)
+        );
+      }
+
+      @media (min-width: 768px) {
+        .container {
+          border-radius: 32px;
+          flex-direction: row;
+          max-width: 736px;
+          max-height: 512px;
+          box-shadow: 0px 30px 60px 0px rgba(61, 108, 236, 0.15);
+        }
+
+        .result-section {
+          flex: 1;
+          padding: 38px;
+          border-radius: 32px;
+          background: var(
+            --Gradient-1,
+            linear-gradient(180deg, #75f 0%, #6943ff 0.01%, #2f2ce9 100%)
+          );
+          box-shadow: none;
+          width: 368px;
+          height: 512px;
+          flex-shrink: 0;
+        }
+
+        .summary-section {
+          flex: 1;
+          padding: 40px;
+        }
+
+        .result-section h2 {
+          font-size: 24px;
+        }
+
+        .svg-wrapper {
+          position: relative; /* Allows text to be positioned relative to this container */
+          display: inline-block;
+          width: 200px;
+          height: 200px;
+          margin-top: 24px;
+        }
+        .svg-text-primary {
+          top: 55px; /* Moves text 25px down from the top */
+          font-size: 72px;
+        }
+
+        .svg-text-secondary {
+          bottom: 46px; /* Adjust the vertical position of this secondary text if needed */
+          font-size: 18px;
+        }
+        .result-section h1 {
+          font-size: 32px;
+          margin-top: 28px;
+          margin-bottom: 14px;
+        }
+        .result-section p {
+          font-size: 18px;
+        }
+        .summary-section h2 {
+          margin-bottom: 24px;
+          font-size: 28px;
+        }
+        .continue-btn {
+          margin-top: 25px;
+          width: 288px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="result-section">
+        <h2>Your Result</h2>
+        <div class="svg-wrapper">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="140"
+            height="140"
+            viewBox="0 0 140 140"
+            fill="none"
+            preserveAspectRatio="xMidYMid meet"
+          >
+            <circle cx="70" cy="70" r="70" fill="url(#paint0_linear_54_23)" />
+            <defs>
+              <linearGradient
+                id="paint0_linear_54_23"
+                x1="70"
+                y1="0"
+                x2="70"
+                y2="140"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#4D21C9" />
+                <stop offset="1" stop-color="#2521C9" stop-opacity="0" />
+                <stop offset="1" stop-color="#2521C9" stop-opacity="0" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <!-- Text Elements Positioned on the SVG -->
+          <div class="svg-text">
+            <span class="svg-text-primary">76</span>
+            <span class="svg-text-secondary">of 100</span>
+          </div>
+        </div>
+
+        <h1>Great</h1>
+        <p>
+          Your performance exceed 65% of the people conducting the test here!
+        </p>
+      </div>
+      <div class="summary-section">
+        <h2>Summary</h2>
+        <div id="summary-list"></div>
+        <button class="continue-btn">Continue</button>
+      </div>
+    </div>
+
+    <script>
+      // Load JSON data dynamically
+      fetch("data.json")
+        .then((response) => response.json())
+        .then((data) => {
+          const summaryList = document.getElementById("summary-list");
+          data.forEach((item, index) => {
+            const div = document.createElement("div");
+            div.className = `summary-item summary-item-${index + 1}`;
+            div.innerHTML = `
+              <div style="display: flex; align-items: center;">
+                <img src="${item.icon}" alt="${item.category} icon">
+                <span class="category">${item.category}</span>
+              </div>
+              <div><span class="my-score">${item.score}</span><span class="one-hundred"> / 100</span></div>
+            `;
+            summaryList.appendChild(div);
+          });
+        })
+        .catch((error) => console.error("Error loading JSON data:", error));
+    </script>
+  </body>
+</html>
